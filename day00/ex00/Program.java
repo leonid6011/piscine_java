@@ -3,19 +3,19 @@ package ex00;
 public class Program {
     public static void main(String[] args) {
         int result = 0;
-        int nbr = 479598;
+        int number = 479598;
 
-        result = result + (nbr / 100000);
-        nbr %= 100000;
-        result = result + (nbr / 10000);
-        nbr %= 10000;
-        result = result + (nbr / 1000);
-        nbr %= 1000;
-        result = result + (nbr / 100);
-        nbr %= 100;
-        result = result + (nbr / 10);
-        nbr %= 10;
-        result += nbr;
+        result = result + (number / 100000);
+        number %= 100000;
+        result = result + (number / 10000);
+        number %= 10000;
+        result = result + (number / 1000);
+        number %= 1000;
+        result = result + (number / 100);
+        number %= 100;
+        result = result + (number / 10);
+        number %= 10;
+        result += number;
         System.out.println(result);
     }
 }

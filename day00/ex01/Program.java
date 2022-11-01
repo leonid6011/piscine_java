@@ -26,7 +26,7 @@ public class Program {
             System.exit(-1);
         }
         int nbr = scanner.nextInt();
-        if (nbr < 1) {
+        if (nbr < 2) {
             System.err.println("IllegalArgument");
             System.exit(-1);
         }
