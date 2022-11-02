@@ -1,7 +1,7 @@
 package ex02;
 
 public class UsersArrayList implements UsersList {
-    private static int arrayCapacity = defaultArrayCapacity;
+    private static final int arrayCapacity = 10;
     private User[] users;
     private int sizeUserArr;
     private void increaseUsers() {
@@ -23,7 +23,8 @@ public class UsersArrayList implements UsersList {
         if (user != null) {
             users[sizeUserArr] = user;
             sizeUserArr++;
-        } else {
+        }
+        else {
             throw new NullPointerException();
         }
     }

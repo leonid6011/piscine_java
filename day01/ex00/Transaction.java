@@ -17,14 +17,16 @@ public class Transaction {
         this.Recipient = recipient;
         this.transferAmount = amount;
         this.IdentifierTransaction = UUID.randomUUID();
-        if (amount < 0) {
+        if (amount < 0)
             transferCategory = Category.CREDIT;
-        } else {
+        else
+        {
             transferCategory = Category.DEBIT;
         }
         if (sender.getBalance() < 0 || sender.getBalance() < amount)
             System.err.println("Transaction failed! Insufficient funds");
-        else {
+        else
+        {
             sender.setBalance(sender.getBalance() - amount);
             recipient.setBalance(recipient.getBalance() + amount);
         }

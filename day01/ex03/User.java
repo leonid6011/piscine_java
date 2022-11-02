@@ -1,5 +1,7 @@
 package ex03;
 
+import ex01.UserIdsGenerator;
+
 public class User {
     private Integer Identifier;
     private String NameUser;
@@ -8,18 +10,12 @@ public class User {
 
     public User(String name, Integer balance) {
         this.Identifier = UserIdsGenerator.getInstance().generateId();;
-        this.NameUser = name;
-        this.Balance = balance;
+        setNameUser(name);
+        setBalance(balance);
     }
 
-    public Integer getIdentifier()
-    {
-        return Identifier;
-    }
-    public String getNameUser()
-    {
-        return NameUser;
-    }
+    public Integer getIdentifier() { return Identifier; }
+    public String getNameUser() { return NameUser; }
     public Integer getBalance() {
         return Balance;
     }
@@ -27,21 +23,19 @@ public class User {
     public Transaction[] getTransactionsArray() {
         return Transactions.toArray();
     }
-    public boolean setNameUser(String name) {
+    public void setNameUser(String name) {
         if (name.length() > 0) {
             NameUser = name;
-            return true;
+            return;
         }
         System.err.println("Error: Invalid name!");
-        return false;
     }
 
-    public boolean setBalance(Integer balance) {
+    public void setBalance(Integer balance) {
         if (balance >= 0) {
             Balance = balance;
-            return true;
+            return;
         }
         System.err.println("Error: Invalid balance!");
-        return false;
     }
 }

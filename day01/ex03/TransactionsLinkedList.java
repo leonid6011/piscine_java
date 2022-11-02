@@ -3,82 +3,67 @@ package ex03;
 import java.util.UUID;
 public class TransactionsLinkedList implements TransactionsList {
     private int length = 0;
-    private TrListNode	begin = new TrListNode(null, null, null);
-    private TrListNode	end = new TrListNode(null, null, null);
-
-    public TransactionsLinkedList() {
-        begin.setNext(end);
-        end.setPrevious(begin);
-    }
+    private TrListNode head = new TrListNode(null);
 
     public void addTransaction(Transaction transaction) {
-        begin.setNext(new TrListNode(begin.getNext(), begin, transaction));
-        length++;
+        TrListNode node = new TrListNode(transaction);
+        if (head != null) {
+            head.setPrevious(head);
+            node.setNext(head);
+            head = node;
+            length++;
+        }  else {
+            node.setPrevious(null);
+            node.setNext(head);
+            head = node;
+            length++;
+        }
     }
 
     public void deleteTransaction(UUID id) {
-        TrListNode tmp = begin.getNext();
-        while (tmp != end)
+        TrListNode tmp = head;
+        for (int i = 0; i < length; i++)
         {
             if (tmp.getData().getIdentifier() == id)
             {
-                tmp.getPrevious().setNext(tmp.getNext());
-                tmp.getNext().setPrevious(tmp.getPrevious());
-                tmp.setNext(null);
-                tmp.setPrevious(null);
-                tmp.setData(null);
+                if (tmp.getPrevious() != null) {
+                    tmp.getPrevious().setNext(tmp.getNext());
+                }
+                else {
+                    head = tmp.getNext();
+                }
+                if (tmp.getNext() != null) {
+                    tmp.getNext().setPrevious(tmp.getPrevious());
+                }
                 length--;
-                return ;
+                return;
             }
             tmp = tmp.getNext();
         }
         throw new TransactionNotFoundException();
     }
-
-    public Transaction[] toArray() {
+    public  Transaction[] toArray() {
+        TrListNode tmpNode = head;
         Transaction[] array = new Transaction[length];
-        TrListNode tmpNode = begin.getNext();
-
-        if (tmpNode.getData() != null)
+        for (int i = 0; i < length; i++)
         {
-            for (int i = 0; i < length; i++) {
-                array[i] = tmpNode.getData();
-                tmpNode = tmpNode.getNext();
-            }
+            array[i] = tmpNode.getData();
+            tmpNode = tmpNode.getNext();
         }
-        return array ;
+        return array;
     }
 
-    private static class TrListNode {
+    public class TrListNode {
+        private Transaction data;
+        private TrListNode next;
+        private TrListNode prev;
 
-        private TrListNode	next;
-        private TrListNode	previous;
-        private Transaction		data;
-
-        public TrListNode(TrListNode next, TrListNode prev, Transaction data) {
-            this.next = next;
-            this.previous = prev;
-            this.data = data;
-        }
-
-        public void setNext(TrListNode next) {
-            this.next = next;
-        }
-        public void setPrevious(TrListNode previous) {
-            this.previous = previous;
-        }
-        public void setData(Transaction data) {
-            this.data = data;
-        }
-
-        public TrListNode getNext() {
-            return next;
-        }
-        public TrListNode getPrevious() {
-            return previous;
-        }
-        public Transaction getData() {
-            return data;
-        }
+        public TrListNode(Transaction data) { this.data = data; }
+        public void setData(Transaction data) { this.data = data; }
+        public void setPrevious(TrListNode prev) { this.prev = prev; }
+        public void setNext(TrListNode next) { this.next = next; }
+        public Transaction getData() { return data; }
+        public TrListNode getPrevious() { return prev; }
+        public TrListNode getNext() { return next; }
     }
 }

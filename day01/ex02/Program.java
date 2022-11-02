@@ -22,8 +22,9 @@ public class Program {
         list.addUser(user1);
         list.addUser(user3);
         list.addUser(user4);
+        list.addUser(user5);
         list.addUser(new User("kek", 1));
-        list.addUser(new User("kek", 1));
+        list.addUser(new User("kek5", 1));
         list.addUser(new User("kek", 1));
         list.addUser(new User("kek", 1));
         list.addUser(new User("kek", 1));
@@ -34,11 +35,16 @@ public class Program {
         System.out.println((list.getUserId(1)).getNameUser());
         System.out.println((list.getUserId(2)).getNameUser());
         System.out.println((list.getUserId(3)).getNameUser());
+        System.out.println((list.getUserId(6)).getNameUser());
 
         System.out.println("");
 
         System.out.println((list.getUserIndex(1)).getNameUser());
         System.out.println((list.getUserIndex(2)).getNameUser());
-        //System.out.println((list.getUserIndex(3)).getNameUser());
+        System.out.println((list.getUserIndex(5)).getNameUser());
+
+        System.out.println("");
+
+        System.out.println(list.getListSize());
     }
 }
