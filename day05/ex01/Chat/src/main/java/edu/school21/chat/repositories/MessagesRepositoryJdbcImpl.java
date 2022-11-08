@@ -14,43 +14,29 @@ import java.util.Optional;
 public class MessagesRepositoryJdbcImpl implements MessagesRepository{
     private HikariDataSource ds;
 
-    public MessagesRepositoryJdbcImpl(HikariDataSource data) {
-        this.ds = data;
+    public MessagesRepositoryJdbcImpl(HikariDataSource ds) {
+        this.ds = ds;
     }
 
     @Override
     public Optional<Message> findById(Long id) throws SQLException {
+        Connection connection = ds.getConnection();
 
         Optional<Message> optionalMessage;
 
-        Statement statementMessage = ds.getConnection().createStatement();
-        Statement statementAuthor = ds.getConnection().createStatement();
-        Statement statementRoom = ds.getConnection().createStatement();
-        Statement statementOwner = ds.getConnection().createStatement();
+        Statement statementMessage = connection.createStatement();
 
-        ResultSet messageSet = statementMessage.executeQuery("SELECT * FROM messages WHERE id = " + id);
+        String query = "SELECT * FROM messages WHERE id = ";
+
+        ResultSet messageSet = statementMessage.executeQuery(query + id);
         messageSet.next();
 
-        ResultSet authorSet = statementAuthor.executeQuery("SELECT * FROM users WHERE id = " + messageSet.getInt("author"));
-        authorSet.next();
+        User author = new User(1, "LOL", "lol123", null, null);
+        Chatroom chatroom = new Chatroom(1, "some chat", new User(1, "owner", "owner123", null, null), null);
 
-        User author = new User(authorSet.getInt("id"), authorSet.getString("login"), authorSet.getString("password"), null, null);
+        optionalMessage = Optional.of(new Message(messageSet.getInt("id"), author, chatroom, messageSet.getString("text"), messageSet.getTimestamp("timestamp").toLocalDateTime()));
 
-        ResultSet roomSet = statementRoom.executeQuery("SELECT * FROM rooms WHERE id = " + messageSet.getInt("room"));
-        roomSet.next();
-
-        ResultSet ownerSet = statementOwner.executeQuery("SELECT * FROM users WHERE id = " + roomSet.getInt("owner_id"));
-        ownerSet.next();
-
-        User owner = new User(ownerSet.getInt("id"), ownerSet.getString("login"), ownerSet.getString("password"), null, null);
-
-        Chatroom room = new Chatroom(roomSet.getInt("id"), roomSet.getString("name"), owner, null);
-
-        optionalMessage = Optional.of(new Message(messageSet.getInt("id"), author, room, messageSet.getString("text"), messageSet.getTimestamp("timestamp").toLocalDateTime()));
         messageSet.close();
-        authorSet.close();
-        roomSet.close();
-        ownerSet.close();
         return optionalMessage;
     }
 }

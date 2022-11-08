@@ -37,12 +37,12 @@ public class Program {
 
         MessagesRepository messagesRepository = new MessagesRepositoryJdbcImpl(dataSource);
 
-        Message message = new Message(0, user, room, "Hello! I am here!", null);
+        Message message = new Message(0, user, room, "Hello! I am here! LOL", null);
         messagesRepository.save(message);
 
-//        User fakeUser = new User(22340, "lol", "lol!", new ArrayList<>(), new ArrayList<>());
-//
-//        Message messageTest = new Message(0, fakeUser, room, "LOL", null);
-//        messagesRepository.save(messageTest);
+        User fakeUser = new User(22340, "lol", "lol!", new ArrayList<>(), new ArrayList<>());
+
+        Message messageTest = new Message(0, fakeUser, room, "LOL", null);
+        messagesRepository.save(messageTest);
     }
 }
