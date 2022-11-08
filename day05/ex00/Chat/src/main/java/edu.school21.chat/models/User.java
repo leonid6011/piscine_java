@@ -64,7 +64,7 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", createdRooms=" + createdRooms +
-                ", joinedRooms=" + joinedRooms +
+                ", joinedRooms=" + socializesRooms +
                 '}';
     }
 
